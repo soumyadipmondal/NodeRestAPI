@@ -17,7 +17,7 @@ const connectToDB = () => {
       useNewUrlParser: true,
     })
     .then((con) => {
-      console.log(con.connections);
+      //console.log(con.connections);
       console.log("Database is connected Successfully");
     })
     .catch((err) => console.log("Some error has occured" + err));

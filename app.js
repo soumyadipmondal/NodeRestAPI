@@ -6,6 +6,17 @@ const jobs = require("./routes/jobs");
 const app = express();
 const connectToDB = require("./config/db");
 
+/* Writting a middleware - similar to the Interceptor in UI */
+
+const mdwr = (req, res, next) => {
+  console.log("hello Intercepted in Mdlwr");
+  req.reqMthd = req.method;
+  req.URL = req.url;
+  next();
+};
+
+app.use(mdwr);
+
 /* Router import */
 
 app.use("/api/v1", jobs);
