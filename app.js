@@ -6,6 +6,10 @@ const jobs = require("./routes/jobs");
 const app = express();
 const connectToDB = require("./config/db");
 
+/* Reading data from req body */
+
+app.use(express.json());
+
 /* Writting a middleware - similar to the Interceptor in UI */
 
 const mdwr = (req, res, next) => {
