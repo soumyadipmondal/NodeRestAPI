@@ -5,6 +5,7 @@ const jobs = require("./routes/jobs");
 
 const app = express();
 const connectToDB = require("./config/db");
+const error = require("./middlewares/error");
 
 /* Reading data from req body */
 
@@ -12,18 +13,23 @@ app.use(express.json());
 
 /* Writting a middleware - similar to the Interceptor in UI */
 
-const mdwr = (req, res, next) => {
+/* const mdwr = (req, res, next) => {
   console.log("hello Intercepted in Mdlwr");
   req.reqMthd = req.method;
   req.URL = req.url;
   next();
-};
+}; 
 
 app.use(mdwr);
+*/
 
 /* Router import */
 
 app.use("/api/v1", jobs);
+
+/* Error Handder Middleware goes here */
+
+app.use(error);
 
 /* taking all env variable from config env file */
 

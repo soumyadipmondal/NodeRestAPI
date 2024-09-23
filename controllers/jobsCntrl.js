@@ -1,12 +1,14 @@
 const Job = require("../db-models/jobSchema");
+const ErrorHandler = require("../utils/errorHandler");
 
 /* Get jobs controller */
 
-const notFoud = (res) => {
-  res.status(404).json({
+const notFoud = (res, next) => {
+  return next(new ErrorHandler("Error - Job Not Found", 400));
+  /* res.status(404).json({
     sucess: false,
     message: "Error - Not Found",
-  });
+  }); */
 };
 
 const successSubmission = (res, job) => {
@@ -41,7 +43,7 @@ exports.updateJob = async (req, res, next) => {
   });
 
   if (!updateJob) {
-    notFoud(res);
+    notFoud(res, next);
   } else {
     successSubmission(res, updateJob);
   }
@@ -52,7 +54,7 @@ exports.updateJob = async (req, res, next) => {
 exports.deleteJob = async (req, res, next) => {
   const deletedJob = await Job.findByIdAndDelete(req.params.id);
   if (!deletedJob) {
-    notFoud(res);
+    notFoud(res, next);
   } else {
     successSubmission(res, deletedJob);
   }
