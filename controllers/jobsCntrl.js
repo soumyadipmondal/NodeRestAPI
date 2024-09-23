@@ -1,4 +1,5 @@
 const Job = require("../db-models/jobSchema");
+const catchAsyncErrorHandler = require("../middlewares/catchAsyncErrorHandler");
 const ErrorHandler = require("../utils/errorHandler");
 
 /* Get jobs controller */
@@ -28,10 +29,10 @@ exports.getJobs = async (req, res, next) => {
 
 /* Creation of jobs */
 
-exports.newJob = async (req, res, next) => {
+exports.newJob = catchAsyncErrorHandler(async (req, res, next) => {
   const newJob = await Job.create(req.body); //creation
   successSubmission(res, newJob);
-};
+});
 
 /* Updating a job */
 
