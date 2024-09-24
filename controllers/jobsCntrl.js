@@ -21,22 +21,23 @@ const successSubmission = (res, job) => {
 };
 
 /* Get all jobs */
-exports.getJobs = async (req, res, next) => {
+exports.getJobs = catchAsyncErrorHandler(async (req, res, next) => {
   const allJobs = await Job.find(); //Find
 
   successSubmission(res, allJobs);
-};
+});
 
 /* Creation of jobs */
 
 exports.newJob = catchAsyncErrorHandler(async (req, res, next) => {
+  // catch Async will give error
   const newJob = await Job.create(req.body); //creation
   successSubmission(res, newJob);
 });
 
 /* Updating a job */
 
-exports.updateJob = async (req, res, next) => {
+exports.updateJob = catchAsyncErrorHandler(async (req, res, next) => {
   const updateJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -48,7 +49,7 @@ exports.updateJob = async (req, res, next) => {
   } else {
     successSubmission(res, updateJob);
   }
-};
+});
 
 /* Deleting a job */
 
