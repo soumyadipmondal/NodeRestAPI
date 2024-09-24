@@ -7,6 +7,13 @@ const app = express();
 const connectToDB = require("./config/db");
 const error = require("./middlewares/error");
 
+/* Handling any type of uncaught err  */
+
+process.on("uncaughtException", (err) => {
+  console.log(`Error occured ->  ${err}`);
+  process.exit(1);
+});
+
 /* Reading data from req body */
 
 app.use(express.json());
@@ -41,6 +48,18 @@ connectToDB();
 const PORT = process.env.PORT;
 const nodeEnv = process.env.NODE_ENV;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server started at port : ${PORT} in ${nodeEnv}`);
+});
+
+/* If some error occures due to url mismatch 
+    that is called unhandled promise rejection 
+*/
+
+process.on("unhandledRejection", (err) => {
+  console.log(`Error For Promise rejection: ${err}`);
+  console.log("Shutting down the server");
+  server.close(() => {
+    process.exit(1);
+  });
 });
