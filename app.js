@@ -6,6 +6,7 @@ const jobs = require("./routes/jobs");
 const app = express();
 const connectToDB = require("./config/db");
 const error = require("./middlewares/error");
+const ErrorHandler = require("./utils/errorHandler");
 
 /* Handling any type of uncaught err  */
 
@@ -33,6 +34,12 @@ app.use(mdwr);
 /* Router import */
 
 app.use("/api/v1", jobs);
+
+/* Wrong Routing error for all other routes which are not matching with the above  */
+
+app.all("*", (req, res, next) => {
+  next(new ErrorHandler(`${req.originalUrl} not Found`, 404));
+});
 
 /* Error Handder Middleware goes here */
 
