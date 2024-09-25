@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
       values: ["User", "Employer"],
       message: "Please select correct role",
     },
-    default: "user",
+    default: "User",
   },
 
   createdAt: {

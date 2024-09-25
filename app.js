@@ -1,7 +1,8 @@
 const express = require("express");
-
 const dotenv = require("dotenv");
+
 const jobs = require("./routes/jobs");
+const userAuth = require("./routes/user-auth");
 
 const app = express();
 const connectToDB = require("./config/db");
@@ -32,8 +33,11 @@ app.use(mdwr);
 */
 
 /* Router import */
-
+/* Job */
 app.use("/api/v1", jobs);
+
+/* User Auth */
+app.use("/api/v1", userAuth);
 
 /* Wrong Routing error for all other routes which are not matching with the above  */
 
