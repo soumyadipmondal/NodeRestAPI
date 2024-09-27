@@ -22,6 +22,7 @@ const successSubmission = (res, job) => {
 
 /* Get all jobs */
 exports.getJobs = catchAsyncErrorHandler(async (req, res, next) => {
+  console.log(req.trace);
   const allJobs = await Job.find(); //Find
 
   successSubmission(res, allJobs);

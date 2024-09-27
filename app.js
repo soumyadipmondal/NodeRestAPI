@@ -8,6 +8,7 @@ const app = express();
 const connectToDB = require("./config/db");
 const error = require("./middlewares/error");
 const ErrorHandler = require("./utils/errorHandler");
+const middleware = require("./middlewares/middleware");
 
 /* Handling any type of uncaught err  */
 
@@ -27,17 +28,18 @@ app.use(express.json());
   req.reqMthd = req.method;
   req.URL = req.url;
   next();
-}; 
+};
 
-app.use(mdwr);
-*/
+app.use(mdwr); */
 
 /* Router import */
-/* Job */
-app.use("/api/v1", jobs);
 
 /* User Auth */
 app.use("/api/v1", userAuth);
+
+/* Job */
+app.use(middleware);
+app.use("/api/v1", jobs);
 
 /* Wrong Routing error for all other routes which are not matching with the above  */
 

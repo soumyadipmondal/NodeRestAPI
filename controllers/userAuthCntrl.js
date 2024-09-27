@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const usersSchema = require("../db-models/usersSchema");
 
 exports.newUser = catchAsyncErrorHandler(async (req, res, next) => {
+  console.log(req.trace);
   const userData = await User.create(req.body);
   const token = userData.getJwtToken();
 
