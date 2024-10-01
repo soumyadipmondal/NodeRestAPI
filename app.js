@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
 
 const jobs = require("./routes/jobs");
 const userAuth = require("./routes/user-auth");
@@ -20,6 +21,10 @@ process.on("uncaughtException", (err) => {
 /* Reading data from req body */
 
 app.use(express.json());
+
+/* set cookie parser */
+
+app.use(cookieParser());
 
 /* Writting a middleware - similar to the Interceptor in UI */
 

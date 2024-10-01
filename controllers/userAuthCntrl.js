@@ -2,24 +2,20 @@ const catchAsyncErrorHandler = require("../middlewares/catchAsyncErrorHandler");
 const User = require("../db-models/usersSchema");
 const ErrorHandler = require("../utils/errorHandler");
 const usersSchema = require("../db-models/usersSchema");
+const sendToken = require("../utils/jwtTokenMgmt");
 
 exports.newUser = catchAsyncErrorHandler(async (req, res, next) => {
   console.log(req.trace);
-  const userData = await User.create(req.body);
-  const token = userData.getJwtToken();
 
-  res.status(200).json({
-    success: true,
-    message: "User is created successfully",
-    token,
-    data: userData,
-  });
+  const userData = await User.create(req.body);
+
+  sendToken(userData, 200, res);
 });
 
 /* login user - /api/v1/login */
 exports.loginUser = catchAsyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
+  console.log(req.body);
 
   if (!email || !password) {
     next(new ErrorHandler("Please enter a valid email and password", 401));
@@ -32,15 +28,10 @@ exports.loginUser = catchAsyncErrorHandler(async (req, res, next) => {
     next(new ErrorHandler("User Not Found!", 401));
   }
   const isPwdMatched = user.comparePassword(password);
+
   if (!isPwdMatched) {
     next(new ErrorHandler("Password does not match", 401));
   }
 
-  const token = user.getJwtToken();
-
-  res.status(200).json({
-    success: true,
-    message: "Logged In successfully",
-    token,
-  });
+  sendToken(user, 200, res);
 });
