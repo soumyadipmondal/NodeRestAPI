@@ -12,6 +12,17 @@ exports.newUser = catchAsyncErrorHandler(async (req, res, next) => {
   sendToken(userData, 200, res);
 });
 
+/* Get all users */
+
+exports.getUsers = catchAsyncErrorHandler(async (req, res, next) => {
+  const allUsers = await User.find();
+  res.status(200).json({
+    success: true,
+    message: "Fetching all users",
+    data: allUsers,
+  });
+});
+
 /* login user - /api/v1/login */
 exports.loginUser = catchAsyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;

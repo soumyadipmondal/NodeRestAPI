@@ -5,7 +5,7 @@ const {
   updateJob,
   deleteJob,
 } = require("../controllers/jobsCntrl");
-const { isAuthenticated } = require("../middlewares/auth");
+const { isAuthenticated, authorizedRoles } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -18,7 +18,9 @@ router.route("/jobs").get(isAuthenticated, getJobs);
 
 /* setting jobs */
 
-router.route("/new/job").post(isAuthenticated, newJob);
+router
+  .route("/new/job")
+  .post(isAuthenticated, authorizedRoles("admin"), newJob);
 
 /* Update a job details */
 
