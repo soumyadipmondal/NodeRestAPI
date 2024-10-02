@@ -5,6 +5,7 @@ const {
   updateJob,
   deleteJob,
 } = require("../controllers/jobsCntrl");
+const { isAuthenticated } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -13,18 +14,18 @@ const router = express.Router();
 /* Using controller technique CRUD operations */
 /* getting jobs */
 
-router.route("/jobs").get(getJobs);
+router.route("/jobs").get(isAuthenticated, getJobs);
 
 /* setting jobs */
 
-router.route("/new/job").post(newJob);
+router.route("/new/job").post(isAuthenticated, newJob);
 
 /* Update a job details */
 
-router.route("/job/update/:id").put(updateJob);
+router.route("/job/update/:id").put(isAuthenticated, updateJob);
 
 /* Delete a job */
 
-router.route("/job/delete/:id").delete(deleteJob);
+router.route("/job/delete/:id").delete(isAuthenticated, deleteJob);
 
 module.exports = router;
