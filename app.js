@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const jobs = require("./routes/jobs");
 const userAuth = require("./routes/user-auth");
@@ -38,6 +39,8 @@ app.use(cookieParser());
 app.use(mdwr); */
 
 /* Router import */
+
+app.use(cors());
 
 /* User Auth */
 app.use("/api/v1", userAuth);
